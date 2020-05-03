@@ -1,4 +1,4 @@
-## DESCLAIMER :
+## DISCLAIMER :
 > I have tested these programs against limited number of
 > grammars so there may be some bug or errors. Also all 
 > programs expects input grammar to be unambiguous and in 
