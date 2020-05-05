@@ -1,12 +1,11 @@
 ## Note :
 > LeaderAndBasicBlock.java contains functions that determines
 > lable of leader statements and basic blocks of three address
-> code. It also has function to print label of leader lines and 
-> label of starting and ending line of each basic block.
+> code. It also has function to print leader lines and basic block.
 
-* It is assumed that three address code use only goto as jump 
+* It is assumed that three address code uses only goto as jump 
   statement.
-* It is also assumed that every new line three address code
+* It is also assumed that every new line of three address code
   starts with line number followed by statement. This line 
   number is used as label.
 
