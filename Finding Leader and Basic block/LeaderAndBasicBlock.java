@@ -10,9 +10,12 @@ public class LeaderAndBasicBlock
 {
 	private List<Integer> leader;
 	private int lastLineNo;
+	private String inputFile;
+	
 
 	public LeaderAndBasicBlock(String filePath)
 	{
+		inputFile=filePath;
 		leader = new ArrayList<Integer>();
 		readAndFindLeaders(filePath);
 		leaderArrange();
@@ -31,15 +34,11 @@ public class LeaderAndBasicBlock
 	*****************************************************************/
 	public void printLeader()
 	{
-		System.out.println("--------  Leader  --------");
-		System.out.print("lineNo of leader statment: ");
+		System.out.println("--------  Leader Statements --------");
 		for(Integer lineNo : leader)
-		{
-			System.out.print(lineNo+" ");
-		}
+			printLines(lineNo,1);
 		System.out.println();
 	}
-
 
 
 	/***************************************************************************
@@ -49,24 +48,69 @@ public class LeaderAndBasicBlock
 	****************************************************************************/
 	public void printBasicBlock()
 	{
-		System.out.println("-------- Basic Block ---------");
+		System.out.println("-------- Basic Block ---------\n\n");
 		int prev = 1;
 		int blockNo = 1;
 		for(int i=1;i<leader.size();i++)
 		{
 			int current = leader.get(i);
 			if(current-1 == prev)
-				System.out.println("b"+blockNo+" : ["+prev+"]");
+				{
+					System.out.println("Block"+blockNo+":");
+					printLines(prev,1);
+
+				}
 			else
-				System.out.println("b"+blockNo+" : ["+prev+","+(current-1)+"]");
+				{
+					System.out.println("Block"+blockNo+":");
+					printLines(prev,current-prev);
+				}
 			prev = current;
 			blockNo++;
 		}
 
 		if(lastLineNo==prev)
-			System.out.println("b"+blockNo+" : ["+prev+"]");
+			{
+				System.out.println("Block"+blockNo+":");
+				printLines(prev,1);
+			}
 		else
-			System.out.println("b"+blockNo+" : ["+prev+","+lastLineNo+"]");
+		{
+			System.out.println("Block"+blockNo+":");
+			printLines(prev,lastLineNo-prev+1);
+		}
+	}
+
+	/******************************************************
+	Description : Prints appropriate line from input file
+	******************************************************/
+	private void printLines(int startLine,int noOfline)
+	{
+		Scanner input = null;
+		try
+		{
+			input = new Scanner(new File(inputFile));
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.println("ERROR!!!!!!  FILE : "+inputFile+"Could not be found");
+		}	
+
+		int l=1;
+		while(input.hasNext() && l<startLine)
+		{
+			input.nextLine();
+			l++;
+		}
+		l=1;
+		while(input.hasNext() && l<=noOfline)
+		{
+			System.out.println(input.nextLine());
+			l++;
+		}
+
+		System.out.println();
+
 	}
 
 	/*****************************************************************************
@@ -77,16 +121,15 @@ public class LeaderAndBasicBlock
 	******************************************************************************/
 	private void readAndFindLeaders(String filePath)
 	{
-		File f = new File(filePath);
 		Scanner input = null;
 		try
 		{
-			input = new Scanner(f);
+			input = new Scanner(new File(filePath));
 		}
 		catch(FileNotFoundException e)
 		{
 			System.out.println("ERROR!!!!!!  FILE : "+filePath+"Could not be found");
-		}
+		}	
 
 		int i=1;
 		boolean prevJump=true;
